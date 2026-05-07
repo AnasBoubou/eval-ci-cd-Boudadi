@@ -28,3 +28,4 @@ pipeline {
         failure { echo "❌ Pipeline de Anas Boudadi échoué" }
     }
 }
+}
