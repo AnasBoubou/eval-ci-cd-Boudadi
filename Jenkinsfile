@@ -32,7 +32,6 @@ pipeline {
         stage('SCA') {
             steps {
                 echo 'Analyse de la composition logicielle (SCA)'
-                // On ajoute || true pour ne pas bloquer le build malgré les failles trouvées
                 sh 'npm audit || true' 
             }
         }
@@ -49,15 +48,30 @@ pipeline {
             }
             steps {
                 echo 'Envoi du signal de déploiement à Render...'
-                // REMPLACE l'URL ci-dessous par celle que tu as copiée dans Settings
                 sh "curl -X POST https://api.render.com/deploy/srv-d7ua9rnlk1mc73efsreg?key=KSYcvRdiKDM"
                 echo 'Signal envoyé ! Vérifiez votre dashboard Render.'
             }
         }
-    } // Fin de la section stages
+    }
 
     post {
-        success { echo "✅ Pipeline de Anas Boudadi réussi" }
-        failure { echo "❌ Pipeline de Anas Boudadi échoué" }
+        success {
+            echo "✅ Pipeline de Anas Boudadi réussi"
+            sh """
+            curl -X POST -H "Content-Type: application/json" \
+            -d '{
+              "content": "✅ **SUCCÈS**\\n**Étudiant :** Anas Boudadi\\n**Statut :** Le pipeline a été validé et déployé avec succès sur Render. 🚀"
+            }' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI
+            """
+        }
+        failure {
+            echo "❌ Pipeline de Anas Boudadi échoué"
+            sh """
+            curl -X POST -H "Content-Type: application/json" \
+            -d '{
+              "content": "❌ **ÉCHEC**\\n**Étudiant :** Anas Boudadi\\n**Attention :** Le pipeline a échoué. Vérifiez les logs sur Jenkins pour corriger les erreurs."
+            }' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI
+            """
+        }
     }
 }
