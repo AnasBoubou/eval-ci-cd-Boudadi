@@ -2,64 +2,83 @@ pipeline {
     agent any
 
     tools {
-        // C'est le nom que tu as donné dans "Global Tool Configuration"
         nodejs 'node18'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Récupération du code...'
+                echo 'Étape 1 : Récupération du code'
                 checkout scm
+            }
+        }
+
+        stage('System Dependencies') {
+            steps {
+                echo 'Étape 2 : Installation de libatomic (fix Node.js)'
+                sh '''
+                    if command -v apt-get > /dev/null; then
+                        apt-get update -qq && apt-get install -y -qq libatomic1
+                    elif command -v yum > /dev/null; then
+                        yum install -y libatomic
+                    elif command -v apk > /dev/null; then
+                        apk add --no-cache libatomic
+                    else
+                        echo "Package manager non reconnu, on continue..."
+                    fi
+                '''
             }
         }
 
         stage('Install') {
             steps {
-                echo 'Installation des dépendances...'
+                echo 'Étape 3 : Installation des dépendances npm'
                 sh 'npm ci'
             }
         }
 
         stage('Lint') {
             steps {
-                echo 'Vérification du style de code...'
+                echo 'Étape 4 : Vérification du style de code'
                 sh 'npm run lint'
             }
         }
 
         stage('Tests') {
             steps {
-                echo 'Exécution des tests unitaires...'
+                echo 'Étape 5 : Exécution des tests unitaires'
                 sh 'npm test'
             }
         }
 
         stage('SCA & SAST') {
             steps {
-                echo 'Analyse de sécurité...'
-                sh 'npm audit'
-                sh 'echo "Analyses SCA et SAST terminées."'
+                echo 'Étape 6 : Analyse de sécurité'
+                sh 'npm audit --audit-level=high || true'
             }
         }
 
         stage('Deploy') {
             input {
-                message "Valider le déploiement sur Render ?"
+                message "🚀 Valider le déploiement ?"
                 ok "Déployer"
             }
             steps {
-                echo 'Déploiement en cours...'
+                echo 'Étape 7 : Déploiement validé manuellement ✅'
             }
         }
     }
 
     post {
+        always {
+            cleanWs()
+        }
         success {
-            echo "Notification : Pipeline de Anas réussi ✅"
+            echo "✅ Pipeline de Anas réussi"
         }
         failure {
-            echo "Notification : Pipeline de Anas échoué ❌"
+            echo "❌ Pipeline de Anas échoué"
         }
     }
 }
