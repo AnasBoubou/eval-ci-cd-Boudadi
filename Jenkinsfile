@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Exécution des tests unitaires...'
+                echo 'Exécution des tests unitaires.zer..'
             }
         }
     }
