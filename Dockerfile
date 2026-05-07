@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 10000
 
 # Commande de démarrage
-CMD [ "node", "app.js" ]
+CMD [ "node", "src/app.js" ]
