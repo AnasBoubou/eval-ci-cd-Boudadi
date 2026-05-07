@@ -1,38 +1,33 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
-                echo 'Récupération du cooode...'
+                echo 'Récupération du code...'
                 checkout scm
             }
         }
-    
 
-        stages {
-            stage('Install')
-            steps{
-                echo 'Execution du npm ci'
+        stage('Install') {
+            steps {
+                echo 'Installation...'
                 sh 'npm ci'
-
             }
-            
         }
-        stage('Lint') {
-                steps {
-                    echo 'Vérification du Lint...'
-                    sh 'npm run lint'
-                }
-            }
 
-        
+        stage('Lint') {
+            steps {
+                echo 'Vérification du code...'
+                sh 'npm run lint'
+            }
+        }
+
         stage('Tests') {
             steps {
-                echo 'Exécution des tests unitaires...'
+                echo 'Exécution des tests...'
                 sh 'npm test'
             }
         }
     }
- }
- 
+}
