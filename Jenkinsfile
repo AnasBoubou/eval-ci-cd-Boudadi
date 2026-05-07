@@ -2,49 +2,64 @@ pipeline {
     agent any
 
     tools {
-        // C'est ici que tu appelles le nom que tu as donné à l'étape 2
+        // C'est le nom que tu as donné dans "Global Tool Configuration"
         nodejs 'node18'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                echo 'Étape 1 : Récupération du code'
+                echo 'Récupération du code...'
                 checkout scm
             }
         }
+
         stage('Install') {
             steps {
-                echo 'Étape 2 : Installation npm ci'
+                echo 'Installation des dépendances...'
                 sh 'npm ci'
             }
         }
+
         stage('Lint') {
             steps {
-                echo 'Étape 3 : Vérification du Lint'
+                echo 'Vérification du style de code...'
                 sh 'npm run lint'
             }
         }
+
         stage('Tests') {
             steps {
-                echo 'Étape 4 : Tests unitaires'
+                echo 'Exécution des tests unitaires...'
                 sh 'npm test'
             }
         }
+
         stage('SCA & SAST') {
             steps {
-                echo 'Étape 5 : Sécurité'
+                echo 'Analyse de sécurité...'
                 sh 'npm audit'
-                sh 'echo "Scan statique terminé"'
+                sh 'echo "Analyses SCA et SAST terminées."'
             }
         }
+
         stage('Deploy') {
             input {
-                message "Anas, validez-vous le déploiement ?"
+                message "Valider le déploiement sur Render ?"
+                ok "Déployer"
             }
             steps {
-                echo 'Étape 6 : Déploiement simulé sur Render'
+                echo 'Déploiement en cours...'
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Notification : Pipeline de Anas réussi ✅"
+        }
+        failure {
+            echo "Notification : Pipeline de Anas échoué ❌"
         }
     }
 }
