@@ -19,11 +19,11 @@ pipeline {
                 echo 'Étape 2 : Installation de libatomic (fix Node.js)'
                 sh '''
                     if command -v apt-get > /dev/null; then
-                        apt-get update -qq && apt-get install -y -qq libatomic1
+                        sudo apt-get update -qq && sudo apt-get install -y -qq libatomic1
                     elif command -v yum > /dev/null; then
-                        yum install -y libatomic
+                        sudo yum install -y libatomic
                     elif command -v apk > /dev/null; then
-                        apk add --no-cache libatomic
+                        sudo apk add --no-cache libatomic
                     else
                         echo "Package manager non reconnu, on continue..."
                     fi
