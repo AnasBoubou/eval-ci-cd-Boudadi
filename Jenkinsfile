@@ -19,4 +19,18 @@ pipeline {
         }
         
     }
-}
+    stage('Lint') {
+            steps {
+                echo 'Vérification du Lint...'
+                sh 'npm run lint'
+            }
+        }
+
+       
+    stage('Tests') {
+        steps {
+            echo 'Exécution des tests unitaires...'
+            sh 'npm test'
+        }
+    }
+ }
