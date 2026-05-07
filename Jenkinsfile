@@ -43,11 +43,15 @@ pipeline {
             }
         }
         stage('Deploy') {
-            input { 
-                message "Déployer sur Render ?" 
+            input {
+                message "Anas Boudadi, validez-vous le déploiement sur Render ?"
+                ok "Déployer"
             }
             steps {
-                echo 'Déploiement simulé effectué !'
+                echo 'Envoi du signal de déploiement à Render...'
+                // REMPLACE l'URL ci-dessous par celle que tu as copiée dans Settings
+                sh "curl -X POST https://api.render.com/deploy/srv-d7ua9rnlk1mc73efsreg?key=KSYcvRdiKDM"
+                echo 'Signal envoyé ! Vérifiez votre dashboard Render.'
             }
         }
     } // Fin de la section stages
