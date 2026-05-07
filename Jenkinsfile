@@ -60,7 +60,7 @@ pipeline {
             sh """
             curl -X POST -H "Content-Type: application/json" \
             -d '{
-              "content": "✅ **SUCCÈS**\\n**Étudiant :** Anas Boudadi\\n**Statut :** Le pipeline a été validé et déployé avec succès sur Render. 🚀"
+              "content": "✅ **SUCCÈS**\\n**Étudiant :** Anas Boudadi\\n**Statut :** HAWAWWWW J'AI REUSSI🚀"
             }' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI
             """
         }
@@ -69,7 +69,7 @@ pipeline {
             sh """
             curl -X POST -H "Content-Type: application/json" \
             -d '{
-              "content": "❌ **ÉCHEC**\\n**Étudiant :** Anas Boudadi\\n**Attention :** Le pipeline a échoué. Vérifiez les logs sur Jenkins pour corriger les erreurs."
+              "content": "❌ **ÉCHEC**\\n**Étudiant :** Anas Boudadi\\n**Attention :**PUREE C'EST REPARTIS COMME 46."
             }' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI
             """
         }
