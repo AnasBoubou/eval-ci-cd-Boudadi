@@ -57,21 +57,11 @@ pipeline {
     post {
         success {
             echo "✅ Pipeline de Anas Boudadi réussi"
-            sh """
-            curl -X POST -H "Content-Type: application/json" \
-            -d '{
-              "content": "✅ **SUCCÈS**\\n**Étudiant :** Anas Boudadi\\n**Statut :** HAWAWWWW J'AI REUSSI🚀"
-            }' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI
-            """
+            sh "curl -X POST -H 'Content-Type: application/json' -d '{\"content\": \"✅ **SUCCÈS**\\n**Étudiant :** Anas Boudadi\\n**Statut :** HAWAWWWW J’AI REUSSI 🚀\"}' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI"
         }
         failure {
             echo "❌ Pipeline de Anas Boudadi échoué"
-            sh """
-            curl -X POST -H "Content-Type: application/json" \
-            -d '{
-              "content": "❌ **ÉCHEC**\\n**Étudiant :** Anas Boudadi\\n**Attention :**PUREE C'EST REPARTIS COMME 46."
-            }' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI
-            """
+            sh "curl -X POST -H 'Content-Type: application/json' -d '{\"content\": \"❌ **ÉCHEC**\\n**Étudiant :** Anas Boudadi\\n**Attention :** PUREE C’EST REPARTIS COMME 46.\"}' https://discord.com/api/webhooks/1500795940305506416/6xfZiyqKvPMA08jWQUFlPT9i1nOPJFShYeP4ju3n0-i1kShM0HVUHfvNUH_NptPOCVFI"
         }
     }
 }
